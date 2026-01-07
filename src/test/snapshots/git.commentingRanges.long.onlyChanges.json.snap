@@ -1,0 +1,11 @@
+{
+  "enableFileComments": true,
+  "ranges": [
+    {
+      "startLine": 20,
+      "startCharacter": 0,
+      "endLine": 20,
+      "endCharacter": 23
+    }
+  ]
+}

@@ -1,0 +1,54 @@
+<local-code-review-thread>
+{
+  "schemaVersion": 1,
+  "id": "t0001",
+  "target": {
+    "workspaceRelativePath": "example.ts",
+    "range": {
+      "startLine": 0,
+      "startCharacter": 0,
+      "endLine": 0,
+      "endCharacter": 6
+    },
+    "anchor": {
+      "kind": "lineRange",
+      "context": {
+        "before": [],
+        "selection": "export",
+        "after": [
+          "  return a + b;",
+          "}"
+        ]
+      }
+    }
+  },
+  "status": "open",
+  "createdAt": "2000-01-01T00:00:00.000Z",
+  "updatedAt": "2000-01-01T00:00:01.000Z"
+}
+</local-code-review-thread>
+
+# example.ts:L1 · open
+
+## Context
+
+### Before
+```text
+```
+
+### Selection
+```text
+export
+```
+
+### After
+```text
+  return a + b;
+}
+```
+
+## Comments
+
+<local-code-review-comment id="c0001" author="You" createdAt="2000-01-01T00:00:01.000Z"/>
+
+original comment

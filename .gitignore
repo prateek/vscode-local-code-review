@@ -1,0 +1,29 @@
+# Cloned reference repositories (keep out of commits)
+references/repos/
+
+# Build + deps
+node_modules/
+out/
+dist/
+*.vsix
+
+# Agent artifacts
+pal_*.changeset
+pal_*.changeset.*
+
+# Test artifacts
+.vscode-test/
+coverage/
+src/test/workspace/.vscode/
+src/test/workspace/.git/
+src/test/workspace/.code-review/
+
+# Local review data
+.code-review/
+.vscode/.code-review/
+
+# OS / editor noise
+.DS_Store
+.clj-kondo/
+.lsp/
+.specstory/

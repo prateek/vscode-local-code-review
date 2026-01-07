@@ -1,0 +1,15 @@
+{
+  "files": [
+    {
+      "workspaceFolder": "workspace",
+      "file": "example.ts",
+      "isChanged": false,
+      "threads": [
+        {
+          "id": "t0001",
+          "label": "L1 · open · 1 comment"
+        }
+      ]
+    }
+  ]
+}

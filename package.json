@@ -1,0 +1,235 @@
+{
+  "name": "local-code-review",
+  "displayName": "Local Code Review",
+  "description": "GitHub/Gerrit-style local code review comments stored in a workspace-local folder (default: .code-review/).",
+  "version": "0.0.1",
+  "publisher": "prateek",
+  "license": "UNLICENSED",
+  "icon": "media/icon.png",
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onStartupFinished",
+    "onCommand:localCodeReview.addComment",
+    "onCommand:localCodeReview.clearAllComments",
+    "onView:localCodeReview.commentsView",
+    "onView:localCodeReview.commentsPanel"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "configuration": {
+      "title": "Local Code Review",
+      "properties": {
+        "localCodeReview.onlyCommentOnChanges": {
+          "type": "boolean",
+          "default": false,
+          "description": "When enabled, restricts comment creation to Git diff hunks (falls back to entire file when diff hunks are unavailable)."
+        },
+        "localCodeReview.storagePath": {
+          "type": "string",
+          "default": ".code-review",
+          "description": "Workspace-relative directory used to store review data (threads, index, and AGENTS.md). Set to .vscode/.code-review for the legacy layout."
+        }
+      }
+    },
+    "commands": [
+      {
+        "command": "localCodeReview.addComment",
+        "title": "Code Review: Add Comment"
+      },
+      {
+        "command": "localCodeReview.clearAllComments",
+        "title": "Code Review: Clear All Comments"
+      },
+      {
+        "command": "localCodeReview.refresh",
+        "title": "Code Review: Refresh"
+      },
+      {
+        "command": "localCodeReview.submitComment",
+        "title": "Save",
+        "category": "Code Review",
+        "enablement": "commentIsEmpty == false"
+      },
+      {
+        "command": "localCodeReview.cancelComment",
+        "title": "Discard",
+        "category": "Code Review"
+      },
+      {
+        "command": "localCodeReview.resolveThread",
+        "title": "Resolve"
+      },
+      {
+        "command": "localCodeReview.reopenThread",
+        "title": "Reopen"
+      },
+      {
+        "command": "localCodeReview.deleteThread",
+        "title": "Delete Thread"
+      },
+      {
+        "command": "localCodeReview.revealThread",
+        "title": "Reveal Thread"
+      },
+      {
+        "command": "localCodeReview.applySuggestion",
+        "title": "Apply Suggestion"
+      }
+    ],
+    "viewsContainers": {
+      "panel": [
+        {
+          "id": "localCodeReviewPanel",
+          "title": "Local Review",
+          "icon": "media/icon.png"
+        }
+      ]
+    },
+    "views": {
+      "explorer": [
+        {
+          "id": "localCodeReview.commentsView",
+          "name": "Local Review"
+        }
+      ],
+      "localCodeReviewPanel": [
+        {
+          "id": "localCodeReview.commentsPanel",
+          "name": "Review Comments"
+        }
+      ]
+    },
+    "keybindings": [
+      {
+        "command": "editor.action.submitComment",
+        "key": "enter",
+        "when": "commentEditorFocused && (commentThread == localCodeReviewUnresolved || commentThread == localCodeReviewResolved)"
+      }
+    ],
+    "menus": {
+      "commandPalette": [
+        {
+          "command": "localCodeReview.addComment",
+          "when": "editorTextFocus"
+        },
+        {
+          "command": "localCodeReview.clearAllComments"
+        },
+        {
+          "command": "localCodeReview.refresh"
+        }
+      ],
+      "editor/context": [
+        {
+          "command": "localCodeReview.addComment",
+          "when": "editorTextFocus"
+        }
+      ],
+      "editor/lineNumber/context": [
+        {
+          "command": "localCodeReview.addComment",
+          "when": "editorTextFocus"
+        }
+      ],
+      "comments/commentThread/context": [
+        {
+          "command": "localCodeReview.submitComment",
+          "when": "commentThread == localCodeReviewUnresolved || commentThread == localCodeReviewResolved",
+          "group": "inline@1"
+        },
+        {
+          "command": "localCodeReview.cancelComment",
+          "when": "commentThread == localCodeReviewUnresolved || commentThread == localCodeReviewResolved",
+          "group": "inline@2"
+        }
+      ],
+      "comments/commentThread/title": [
+        {
+          "command": "localCodeReview.resolveThread",
+          "when": "commentThread == localCodeReviewUnresolved",
+          "group": "navigation@1"
+        },
+        {
+          "command": "localCodeReview.reopenThread",
+          "when": "commentThread == localCodeReviewResolved",
+          "group": "navigation@2"
+        },
+        {
+          "command": "localCodeReview.applySuggestion",
+          "when": "commentThread == localCodeReviewUnresolved || commentThread == localCodeReviewResolved",
+          "group": "navigation@3"
+        },
+        {
+          "command": "localCodeReview.deleteThread",
+          "when": "commentThread == localCodeReviewUnresolved || commentThread == localCodeReviewResolved",
+          "group": "navigation@4"
+        }
+      ],
+      "view/title": [
+        {
+          "command": "localCodeReview.clearAllComments",
+          "when": "view == localCodeReview.commentsView || view == localCodeReview.commentsPanel",
+          "group": "navigation@1"
+        },
+        {
+          "command": "localCodeReview.refresh",
+          "when": "view == localCodeReview.commentsView || view == localCodeReview.commentsPanel",
+          "group": "navigation@2"
+        }
+      ],
+      "view/item/context": [
+        {
+          "command": "localCodeReview.revealThread",
+          "when": "(view == localCodeReview.commentsView || view == localCodeReview.commentsPanel) && viewItem == localCodeReview.thread",
+          "group": "navigation@1"
+        },
+        {
+          "command": "localCodeReview.resolveThread",
+          "when": "(view == localCodeReview.commentsView || view == localCodeReview.commentsPanel) && viewItem == localCodeReview.thread",
+          "group": "inline@2"
+        },
+        {
+          "command": "localCodeReview.reopenThread",
+          "when": "(view == localCodeReview.commentsView || view == localCodeReview.commentsPanel) && viewItem == localCodeReview.thread",
+          "group": "inline@3"
+        },
+        {
+          "command": "localCodeReview.applySuggestion",
+          "when": "(view == localCodeReview.commentsView || view == localCodeReview.commentsPanel) && viewItem == localCodeReview.thread",
+          "group": "inline@4"
+        },
+        {
+          "command": "localCodeReview.deleteThread",
+          "when": "(view == localCodeReview.commentsView || view == localCodeReview.commentsPanel) && viewItem == localCodeReview.thread",
+          "group": "inline@5"
+        }
+      ]
+    }
+  },
+  "scripts": {
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "test": "npm run compile && node ./out/test/runTest.js",
+    "test:ci": "xvfb-run -a npm test",
+    "test:docker": "docker build -f Dockerfile.test -t local-code-review-test . && docker run --rm local-code-review-test",
+    "vscode:prepublish": "npm run compile",
+    "vsce:package": "npm exec --yes @vscode/vsce -- package --allow-missing-repository --skip-license",
+    "vsce:publish": "npm exec --yes @vscode/vsce -- publish --allow-missing-repository --skip-license"
+  },
+  "devDependencies": {
+    "@types/mocha": "^10.0.10",
+    "@types/chai": "^5.0.1",
+    "@types/node": "^22.10.10",
+    "@types/vscode": "^1.85.0",
+    "@vscode/test-electron": "^2.4.1",
+    "chai": "^5.1.2",
+    "glob": "^10.4.5",
+    "mocha": "^10.8.2",
+    "typescript": "^5.7.3"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "threads": [
+    {
+      "id": "t0001",
+      "file": "example.ts",
+      "range": {
+        "startLine": 0,
+        "startCharacter": 0,
+        "endLine": 0,
+        "endCharacter": 6
+      },
+      "status": "open",
+      "updatedAt": "2000-01-01T00:00:03.000Z"
+    }
+  ]
+}

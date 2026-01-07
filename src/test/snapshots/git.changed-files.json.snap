@@ -1,0 +1,9 @@
+[
+  {
+    "workspaceFolder": "workspace",
+    "file": "example.ts",
+    "staged": false,
+    "unstaged": true,
+    "untracked": false
+  }
+]
